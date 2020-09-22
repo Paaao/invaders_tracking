@@ -84,32 +84,15 @@ class Tracker:
     found_invaders: int = 0
     radar: Radar
 
-    def __init__(self):
+    def __init__(self, radar_sample: List):
         # TODO: collection of invaders may be provided from file(s), database,... instead of being hardcoded...
         self.load_invader(INVADER_ONE)
         self.load_invader(INVADER_TWO)
 
-        # Work with arguments
-        arguments_parser = argparse.ArgumentParser()
-        arguments_parser.add_argument("-f", "--sample_file", help="Filename with radar image, e.g: radar_sample.txt")
-
-        # Read arguments from the command line
-        args = arguments_parser.parse_args()
-
-        # Load radar image from file
-        if args.sample_file:
-            file_radar_image = args.sample_file
-        else:
-            file_radar_image = RADAR_FILE
-
         try:
-            radar_image = []
-            with open(file_radar_image, 'r') as radar_file:
-                for line in radar_file:
-                    radar_image.append(line.strip())
-            self.load_radar_image(radar_image)
-        except OSError:
-            print("Problem reading radar image from", file_radar_image)
+            self.load_radar_image(radar_sample)
+        except:
+            print('Problem loading radar sample')
             exit()
 
     def load_radar_image(self, image: List):
@@ -263,5 +246,28 @@ class Tracker:
 
 
 if __name__ == '__main__':
-    tracker = Tracker()
+    radar_image = []
+
+    # Work with arguments
+    arguments_parser = argparse.ArgumentParser()
+    arguments_parser.add_argument("-f", "--sample_file", help="Filename with radar image", default=RADAR_FILE)
+
+    # Read arguments from the command line
+    args = arguments_parser.parse_args()
+
+    # Load radar image from file
+    if args.sample_file:
+        file_radar_image = args.sample_file
+    else:
+        file_radar_image = RADAR_FILE
+
+    try:
+        with open(file_radar_image, 'r') as radar_file:
+            for line in radar_file:
+                radar_image.append(line.strip())
+    except OSError:
+        print("Problem reading radar image from", file_radar_image)
+        exit()
+
+    tracker = Tracker(radar_image)
     tracker.main()

@@ -2,11 +2,11 @@
 """
 Some simple unit tests with build in unittest library ;)
 
-To run it: python3 unit_tests.py
+To run it: python3 testTracker.py
 """
 import unittest
 
-from tracker import Tracker
+import tracker
 
 
 class TestStringMethods(unittest.TestCase):
@@ -15,13 +15,22 @@ class TestStringMethods(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        cls.tracker = Tracker()
+        radar_sample = cls.load_radar_sample(cls)
+        cls.tracker = tracker.Tracker(radar_sample)
 
         # Make sure that testing with expected values for options
         cls.tracker.RATIO_MATCH = 0.79
         cls.tracker.MINIMUM_HEIGHT = 5
         cls.tracker.MINIMUM_DISTANCE = 4
-        cls.tracker.RADAR_FILE = 'radar_sample.txt'
+
+    @staticmethod
+    def load_radar_sample(cls):
+        radar_image = []
+
+        with open(tracker.RADAR_FILE, 'r') as radar_file:
+            for line in radar_file:
+                radar_image.append(line.strip())
+        return radar_image
 
     def test_radar_is_loaded(self):
         self.assertEqual(self.tracker.radar.width, 100)

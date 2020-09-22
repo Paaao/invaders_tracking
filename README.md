@@ -57,7 +57,7 @@ There is a lot of space for improvement :) of the application, like:
 
 ### Testing application
 **Unit tests** are created with build in library *unittest*  and can be executed
-    python3 unit_tests.py 
+    python3 testTracker.py 
 
 ### Example of output with invaders overlay
 Each type of invader is represented by numbers (1 and 2 on this sample)
