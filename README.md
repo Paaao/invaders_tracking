@@ -3,6 +3,22 @@
 ## Finished development assignment
 Application must take a radar sample as an argument and reveal possible locations of pesky invaders.
 
+My approach to problem was using **difflib** standard library for calculating similarity between provided text samples.
+So searching for similarity of samples withing boundaries of invader (height, width)
+and calculating match/similarity for each line of radar sample.
+Total similarity value is then calculated from similarities from all lines and compared with RATIO_MATCH.
+
+RATIO_MATCH is minimal matching ratio to consider as positive similarity match (between 0-1, currently with 0.79 .. which == 79%)
+This value makes main difference when searching for invaders (nicesly shown with results in *detailed_results.pdf*)
+
+        
+Radar sample is provided as an .txt file from optional argument (-f | --sample_file)
+./tracker.py -sample_file radar_sample.txt
+If not provided then filename stored in RADAR_FILE is used.
+
+Output with overlay of found invaders on radar map can be found in output.txt file.
+There are some detailed examples of output with invaders found (and highlighted) in *detailed_results.pdf*
+
 
 There is a lot of space for improvement :) of the application, like:
 - making it possible for users to change options with arguments (not making it only hard-coded)
