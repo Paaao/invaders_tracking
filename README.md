@@ -1,116 +1,65 @@
 # Invaders tracking application
 
-## Finished development assignment
 Application must take a radar sample as an argument and reveal possible locations of pesky invaders.
 
-My approach to problem was using **difflib** standard library for calculating similarity between provided text samples.
-So searching for similarity of samples withing boundaries of invader (height, width)
-and calculating match/similarity for each line of radar sample.
-Total similarity value is then calculated from similarities from all lines and compared with RATIO_MATCH.
+## Development assignment
+Your Python application must take a radar sample as an argument and reveal possible locations of invaders.
 
-RATIO_MATCH is minimal matching ratio to consider as positive similarity match (between 0-1, currently with 0.79 .. which == 79%)
-This value makes main difference when searching for invaders (nicesly shown with results in *detailed_results.pdf*)
+#### Requirements:
+- No image detection, this is all about ASCII patterns
+- Good OOP architecture is a must. This is a perfect opportunity to demonstrate the SOLID design principle experience.
+- Fully tested code using a framework of your choice
+
+## Finished application
+My approach to problem was using **difflib** standard library for calculating similarity between radar and invader(s).
+
+Patterns of both invaders are saved into list. There could be any number of searched patterns not only two hard-coded invaders - it could be loaded from files, database, ...
+And then searching for each pattern one by one in whole radar image following simple rules:
+
+From starting line in radar image take row, and cut sample long as width of current invader, and calculate similarity with line of invader pattern.
+Saving calculated similarity (between 0-1 == 0-100%) and offsetting to another line - repeating for height of invader.
+
+Then calculating average similarity for whole invader (from saved values for each line).
+
+And comparing if similarity is equal or greater than value in **RATIO_MATCH**. If so, then pattern is "highlighted" in radar sample, 
+currently with number of enumerated invaders. And then moving/offsetting starting line in radar to another line and repeating.
+
+**RATIO_MATCH** is minimal matching ratio to consider as positive similarity match (between 0-1, currently with 0.79 .. which == 79%)
+This value makes main difference when searching for invaders (nicely shown with results in *detailed_results.pdf*)
 
         
-Radar sample is provided as an .txt file from optional argument (-f | --sample_file)
+**Radar sample** is provided as an .txt file from optional argument (-f | --sample_file)
         
         ./tracker.py -sample_file radar_sample.txt
         
         ./tracker.py -f radar_sample.txt
         
-        If not provided then filename stored in RADAR_FILE is used:
+        If not provided then filename stored in RADAR_FILE constant is used:
         ./tracke.py
 
-Output with overlay of found invaders on radar map can be found in output.txt file.
-There are some detailed examples of output with invaders found (and highlighted) in *detailed_results.pdf*
+#### Result / output / invaders found 
+After running and searching for all invaders application prints details, like:
+~~~~
+With similarity acceptance ratio: 79.0%
+Invaders found: 8
+Radar image with identified invaders saved in: output.txt
+~~~~
+And output with overlay of found invaders on radar map can be found in *output.txt* file.
+Some detailed examples of output with invaders found (and highlighted) in *detailed_results.pdf*
 
 
 There is a lot of space for improvement :) of the application, like:
 - making it possible for users to change options with arguments (not making it only hard-coded)
-- saving all found matches and then choosing best ones within perimeter (now when first match found application is skipping columns by provided offset in order to not count same invaders twice)
+- saving all found matches and then choosing best ones within perimeter (now when first match is found application is skipping columns by provided offset in order to not count same invaders twice)
 - option to save output as .html (or even image) file with highlighted invaders on radar image
-- making some details (like saving output to file) optional
+- making some details (like saving output to file or printing output on screen) optional
 - rotating radar image to not miss invaders which are “falling” and not just nicely descending :)
 
+### Testing application
+**Unit tests** are created with build in library *unittest*  and can be executed
+    python3 unit_tests.py 
 
-### Known invaders:
-~~~~
---o-----o--
----o---o---
---ooooooo--
--oo-ooo-oo-
-ooooooooooo
-o-ooooooo-o
-o-o-----o-o
----oo-oo---
-~~~~
-
-~~~~
----oo---
---oooo--
--oooooo-
-oo-oo-oo
-oooooooo
---o--o--
--o-oo-o-
-o-o--o-o
-~~~~
-
-### Example radar sample:
-~~~~
-----o--oo----o--ooo--ooo--o------o---oo-o----oo---o--o---------o----o------o-------------o--o--o--o-
---o-o-----oooooooo-oooooo---o---o----o------ooo-o---o--o----o------o--o---ooo-----o--oo-o------o----
---o--------oo-ooo-oo-oo-oo-----O------------ooooo-----oo----o------o---o--o--o-o-o------o----o-o-o--
--------o--oooooo--o-oo-o--o-o-----oo--o-o-oo--o-oo-oo-o--------o-----o------o-ooooo---o--o--o-------
-------o---o-ooo-ooo----o-----oo-------o---oo-ooooo-o------o----o--------o-oo--ooo-oo-------------o-o
--o--o-----o-o---o-ooooo-o-------oo---o---------o-----o-oo-----------oo----ooooooo-ooo-oo------------
-o-------------ooooo-o--o--o--o-------o--o-oo-oo-o-o-o----oo------------o--oooo--ooo-o----o-----o--o-
---o-------------------------oo---------oo-o-o--ooo----oo----o--o--o----o--o-o-----o-o------o-o------
--------------------o----------o------o--o------o--------o--------o--oo-o-----oo-oo---o--o---o-----oo
-----------o----------o---o--------------o--o----o--o-o------------oo------o--o-o---o-----o----------
-------o----o-o---o-----o-o---o-----oo-o--------o---------------------------------o-o-o--o-----------
----------------o-------o-----o-------o-------------------o-----o---------o-o-------------o-------oo-
--o--o-------------o-o-----o--o--o--oo-------------o----ooo----o-------------o----------oo----o---o-o
--o--o-------------o----oo------o--o-------o--o-----o-----o----o-----o--o----o--oo-----------o-------
--o-----oo-------o------o----o----------o--o----o-----o-----o-------o-----------o---o-o--oooooo-----o
--o--------o-----o-----o---------oo----oo---o-o---------o---o--oooo-oo--o-------o------oo--oo--o-----
-------------o---------o---------o----oooo-------------oo-oo-----ooo-oo-----o-------o-oo-oooooooo---o
-----------------------o------------oooooooo---o-----o-------o--oooooo-o------------o-o-ooooooo-o----
-------------o------o---o---o-------oo-oo--o--o---------o--o-o-o-ooooo-o--------------oo-o----o-oo-o-
----o-o----------oo-------oo----o----oooooooo-------o----o-o-o-o-----o-o-----o----------ooo-oo--o---o
--o-o---------o-o---------------o--o--o--ooo---ooo-------o------oo-oo------------o--------o--o-o--o--
--------oo---------------------------o-oo----------o------o-o-------o-----o----o-----o-oo-o-----o---o
----o--------o-----o-------o-oo-----oo--oo-o----oo----------o--o---oo------oo----o-----o-------o-----
----o--ooo-o---------o-o----o------------o---------o----o--o-------o----o--------o----------------oo-
----o------o----------------o----o------o------o---oo-----------o-------------o----------oo---------o
---oo---------------o--o------o---o-----o--o-------------o------o-------o-----o-----o----o------o--o-
--o-------o----------o-o-o-------o-----o--o-o-----------o-oo-----------o------o---------o-----o-o----
-----------o----o-------o----o--o------o------------o---o---------------oo----o-----ooo--------------
-----o--------oo----o-o----o--o------ooo----o-oooo---o--o-oo--------o-oo-----o-o---o-o--o-----oo-----
-------o--------o-ooooo----o---o--o-----o---------------o-o-------o-----o----------------------------
-o-------oo----o--oooooo-o---o--o------oooo----------o-oo-------o---o----------o------oo-------------
--o---o----------o--oo-oo-o---o-----o-o-----------------------oo--o------o------o--------------------
------oo-o-o-o---ooooooooo----o----o--------o--o---oo---o------------o----------o-o---o------o-o--oo-
-------o------o---ooo-o---------------------------o--o---o---o----o--o-------o-----o------o----o----o
--------o----------ooo-o-----o----o---o--o-oo--o--o-o--o------o--o-oo---ooo------------------------o-
--o-------o------o-o--ooo--o---o---oo-----o----o-------------o----o-ooo-o------o--o-o------o-o-------
----oo--o---o-o---------o---o--------------o--o-----o-------o-----o--o---o-oo--------o----o----o-----
-o------o----oo-o-----------oo--o---o--------o-o------o-------o-o------o-oo---------o-----oo---------
-----o--o---o-o-----------o---o------------o-------o----o--o--o--o-o---------------o-----------------
--------oo--o-o-----o-----o----o-o--o----------------------o-------o------o----oo----ooo---------o---
-o-----oo-------------------o--o-----o-----------o------o-------o----o-----------o----------------o--
---o---o-------o------------o--------------------o----o--o-------------oo---o---------oo--------o----
---o--------o---------o------------o------o-------o------------o-------o---o---------ooooo-----------
-------o--------------o-o-o---------o---o-------o--o-----o-------o-o----------o-----oo-ooo----------o
---o---------------o----o--oo-------------o---------o-------------------oo---------oo-o-ooo----------
--o-----------o------ooo----o----------------ooo-----o--------o--o---o-----------o-o-oooooo--------oo
--o---o-------o---o-oooo-----o-------------------o----oo-----------------o--o--------o--o------o--o--
--------o---o------oooooo--o----ooo--o--------o-------o----------------------------oo-oo-o--o--------
-o--oo------o-----oo--o-oo------------oo--o------o--o-------------oo----o------------oooo-o------oo--
------o----------ooooooooo--------------oo--------------oo-----o-----o-o--o------o----------o----o---
-~~~~
-
-### Example of output with invaders overlay:
+### Example of output with invaders overlay
 Each type of invader is represented by numbers (1 and 2 on this sample)
 
 ~~~~
@@ -166,3 +115,83 @@ o--oo------o-----11--1-11------------oo--o------o--o-------------oo----o--------
 -----o----------111111111--------------oo--------------oo-----o-----o-o--o------o----------o----o---
 ~~~~
 
+
+
+### Known invaders:
+Type #1
+~~~~
+--o-----o--
+---o---o---
+--ooooooo--
+-oo-ooo-oo-
+ooooooooooo
+o-ooooooo-o
+o-o-----o-o
+---oo-oo---
+~~~~
+
+Type #2
+~~~~
+---oo---
+--oooo--
+-oooooo-
+oo-oo-oo
+oooooooo
+--o--o--
+-o-oo-o-
+o-o--o-o
+~~~~
+
+### Example radar sample (input file):
+~~~~
+----o--oo----o--ooo--ooo--o------o---oo-o----oo---o--o---------o----o------o-------------o--o--o--o-
+--o-o-----oooooooo-oooooo---o---o----o------ooo-o---o--o----o------o--o---ooo-----o--oo-o------o----
+--o--------oo-ooo-oo-oo-oo-----O------------ooooo-----oo----o------o---o--o--o-o-o------o----o-o-o--
+-------o--oooooo--o-oo-o--o-o-----oo--o-o-oo--o-oo-oo-o--------o-----o------o-ooooo---o--o--o-------
+------o---o-ooo-ooo----o-----oo-------o---oo-ooooo-o------o----o--------o-oo--ooo-oo-------------o-o
+-o--o-----o-o---o-ooooo-o-------oo---o---------o-----o-oo-----------oo----ooooooo-ooo-oo------------
+o-------------ooooo-o--o--o--o-------o--o-oo-oo-o-o-o----oo------------o--oooo--ooo-o----o-----o--o-
+--o-------------------------oo---------oo-o-o--ooo----oo----o--o--o----o--o-o-----o-o------o-o------
+-------------------o----------o------o--o------o--------o--------o--oo-o-----oo-oo---o--o---o-----oo
+----------o----------o---o--------------o--o----o--o-o------------oo------o--o-o---o-----o----------
+------o----o-o---o-----o-o---o-----oo-o--------o---------------------------------o-o-o--o-----------
+---------------o-------o-----o-------o-------------------o-----o---------o-o-------------o-------oo-
+-o--o-------------o-o-----o--o--o--oo-------------o----ooo----o-------------o----------oo----o---o-o
+-o--o-------------o----oo------o--o-------o--o-----o-----o----o-----o--o----o--oo-----------o-------
+-o-----oo-------o------o----o----------o--o----o-----o-----o-------o-----------o---o-o--oooooo-----o
+-o--------o-----o-----o---------oo----oo---o-o---------o---o--oooo-oo--o-------o------oo--oo--o-----
+------------o---------o---------o----oooo-------------oo-oo-----ooo-oo-----o-------o-oo-oooooooo---o
+----------------------o------------oooooooo---o-----o-------o--oooooo-o------------o-o-ooooooo-o----
+------------o------o---o---o-------oo-oo--o--o---------o--o-o-o-ooooo-o--------------oo-o----o-oo-o-
+---o-o----------oo-------oo----o----oooooooo-------o----o-o-o-o-----o-o-----o----------ooo-oo--o---o
+-o-o---------o-o---------------o--o--o--ooo---ooo-------o------oo-oo------------o--------o--o-o--o--
+-------oo---------------------------o-oo----------o------o-o-------o-----o----o-----o-oo-o-----o---o
+---o--------o-----o-------o-oo-----oo--oo-o----oo----------o--o---oo------oo----o-----o-------o-----
+---o--ooo-o---------o-o----o------------o---------o----o--o-------o----o--------o----------------oo-
+---o------o----------------o----o------o------o---oo-----------o-------------o----------oo---------o
+--oo---------------o--o------o---o-----o--o-------------o------o-------o-----o-----o----o------o--o-
+-o-------o----------o-o-o-------o-----o--o-o-----------o-oo-----------o------o---------o-----o-o----
+----------o----o-------o----o--o------o------------o---o---------------oo----o-----ooo--------------
+----o--------oo----o-o----o--o------ooo----o-oooo---o--o-oo--------o-oo-----o-o---o-o--o-----oo-----
+------o--------o-ooooo----o---o--o-----o---------------o-o-------o-----o----------------------------
+o-------oo----o--oooooo-o---o--o------oooo----------o-oo-------o---o----------o------oo-------------
+-o---o----------o--oo-oo-o---o-----o-o-----------------------oo--o------o------o--------------------
+-----oo-o-o-o---ooooooooo----o----o--------o--o---oo---o------------o----------o-o---o------o-o--oo-
+------o------o---ooo-o---------------------------o--o---o---o----o--o-------o-----o------o----o----o
+-------o----------ooo-o-----o----o---o--o-oo--o--o-o--o------o--o-oo---ooo------------------------o-
+-o-------o------o-o--ooo--o---o---oo-----o----o-------------o----o-ooo-o------o--o-o------o-o-------
+---oo--o---o-o---------o---o--------------o--o-----o-------o-----o--o---o-oo--------o----o----o-----
+o------o----oo-o-----------oo--o---o--------o-o------o-------o-o------o-oo---------o-----oo---------
+----o--o---o-o-----------o---o------------o-------o----o--o--o--o-o---------------o-----------------
+-------oo--o-o-----o-----o----o-o--o----------------------o-------o------o----oo----ooo---------o---
+o-----oo-------------------o--o-----o-----------o------o-------o----o-----------o----------------o--
+--o---o-------o------------o--------------------o----o--o-------------oo---o---------oo--------o----
+--o--------o---------o------------o------o-------o------------o-------o---o---------ooooo-----------
+------o--------------o-o-o---------o---o-------o--o-----o-------o-o----------o-----oo-ooo----------o
+--o---------------o----o--oo-------------o---------o-------------------oo---------oo-o-ooo----------
+-o-----------o------ooo----o----------------ooo-----o--------o--o---o-----------o-o-oooooo--------oo
+-o---o-------o---o-oooo-----o-------------------o----oo-----------------o--o--------o--o------o--o--
+-------o---o------oooooo--o----ooo--o--------o-------o----------------------------oo-oo-o--o--------
+o--oo------o-----oo--o-oo------------oo--o------o--o-------------oo----o------------oooo-o------oo--
+-----o----------ooooooooo--------------oo--------------oo-----o-----o-o--o------o----------o----o---
+~~~~
