@@ -30,7 +30,7 @@ This value makes main difference when searching for invaders (nicely shown with 
         
 **Radar sample** is provided as an .txt file from optional argument (-f | --sample_file)
         
-        ./tracker.py -sample_file radar_sample.txt
+        ./tracker.py --sample_file radar_sample.txt
         
         ./tracker.py -f radar_sample.txt
         
