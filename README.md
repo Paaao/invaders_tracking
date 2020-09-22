@@ -59,6 +59,10 @@ There is a lot of space for improvement :) of the application, like:
 **Unit tests** are created with build in library *unittest*  and can be executed
     
     python3 testTracker.py 
+    
+**BDD tests* are created with *mamba* library nad can be executed (depending on environment ;) :
+    
+    pipenv run mamba tracker_spec.py 
 
 ### Example of output with invaders overlay
 Each type of invader is represented by numbers (1 and 2 on this sample)
