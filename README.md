@@ -13,10 +13,12 @@ This value makes main difference when searching for invaders (nicesly shown with
 
         
 Radar sample is provided as an .txt file from optional argument (-f | --sample_file)
+        
         ./tracker.py -sample_file radar_sample.txt
+        
         ./tracker.py -f radar_sample.txt
         
-        * If not provided then filename stored in RADAR_FILE is used.
+        If not provided then filename stored in RADAR_FILE is used:
         ./tracke.py
 
 Output with overlay of found invaders on radar map can be found in output.txt file.
