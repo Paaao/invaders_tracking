@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Application for tracking invaders on provided radar image, revealing possible locations of known types of invaders.
-Created as a simple challenge from Marketer.com
+Created as a simple challenge from Marketer.tech
 
 In this version main options are stored in constants in first lines of script bellow,
 and only input file (radar sample) can be provided as optional argument:
