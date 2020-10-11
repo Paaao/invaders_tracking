@@ -60,7 +60,7 @@ There is a lot of space for improvement :) of the application, like:
     
     python3 testTracker.py 
     
-**BDD tests* are created with *mamba* library nad can be executed (depending on environment ;) :
+**BDD tests** are created with *mamba* library and can be executed (depending on environment ;) :
     
     pipenv run mamba tracker_spec.py 
 
