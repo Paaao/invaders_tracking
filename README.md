@@ -32,7 +32,7 @@ This value makes main difference when searching for invaders (nicely shown with 
         
         $ python3 -m tracker --sample_file radar_sample.txt
         
-        $ python3 -m trackery -f radar_sample.txt
+        $ python3 -m tracker -f radar_sample.txt
         
         If not provided then filename stored in RADAR_FILE constant is used:
         $ python3 -m tracker
