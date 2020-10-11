@@ -44,7 +44,7 @@ With similarity acceptance ratio: 79.0%
 Invaders found: 8
 Radar image with identified invaders saved in: ./data/output.txt
 ~~~~
-And output with overlay of found invaders on radar map can be found in *output.txt* file.
+And output with overlay of found invaders on radar map can be found in *./data/output.txt* file.
 Some detailed examples of output with invaders found (and highlighted) in *detailed_results.pdf*
 
 
@@ -62,7 +62,8 @@ There is a lot of space for improvement :) of the application, like:
     
 **BDD tests** are created with *mamba* library and can be executed (depending on environment ;) :
     
-    pipenv run mamba tracker_spec.py 
+    pipenv run mamba tests/tracker_spec.py 
+
 
 ### Example of output with invaders overlay
 Each type of invader is represented by numbers (1 and 2 on this sample)
