@@ -21,7 +21,7 @@ Saving calculated similarity (between 0-1 == 0-100%) and offsetting to another l
 
 Then calculating average similarity for whole invader (from saved values for each line).
 
-And comparing if similarity is equal or greater than value in **RATIO_MATCH**. If so, then pattern is "highlighted" in radar sample, 
+And comparing if similarity is equal or greater than value in RadarSearchUsingDiff.**RATIO_MATCH**. If so, then pattern is "highlighted" in radar sample, 
 currently with number of enumerated invaders. And then moving/offsetting starting line in radar to another line and repeating.
 
 **RATIO_MATCH** is minimal matching ratio to consider as positive similarity match (between 0-1, currently with 0.79 .. which == 79%)
@@ -30,19 +30,19 @@ This value makes main difference when searching for invaders (nicely shown with 
         
 **Radar sample** is provided as an .txt file from optional argument (-f | --sample_file)
         
-        ./tracker.py --sample_file radar_sample.txt
+        $ python3 -m tracker --sample_file radar_sample.txt
         
-        ./tracker.py -f radar_sample.txt
+        $ python3 -m trackery -f radar_sample.txt
         
         If not provided then filename stored in RADAR_FILE constant is used:
-        ./tracke.py
+        $ python3 -m tracker
 
 #### Result / output / invaders found 
 After running and searching for all invaders application prints details, like:
 ~~~~
 With similarity acceptance ratio: 79.0%
 Invaders found: 8
-Radar image with identified invaders saved in: output.txt
+Radar image with identified invaders saved in: ./data/output.txt
 ~~~~
 And output with overlay of found invaders on radar map can be found in *output.txt* file.
 Some detailed examples of output with invaders found (and highlighted) in *detailed_results.pdf*
@@ -58,7 +58,7 @@ There is a lot of space for improvement :) of the application, like:
 ### Testing application
 **Unit tests** are created with build in library *unittest*  and can be executed
     
-    python3 testTracker.py 
+    python3 -m unittest tests/testTracker.py 
     
 **BDD tests** are created with *mamba* library and can be executed (depending on environment ;) :
     
