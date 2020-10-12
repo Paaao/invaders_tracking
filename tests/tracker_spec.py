@@ -87,7 +87,8 @@ with description("Invader"):
 
 with description("Radar"):
     with before.all:
-        self.radar = Radar('./data/radar_sample.txt', './data/output.txt')
+        storage_manager = RadarStorageManager('./data/radar_sample.txt', './data/output.txt')
+        self.radar = Radar(storage_manager)
 
     with it("get loaded image dimensions"):
         assert self.radar.width == 100
@@ -141,7 +142,8 @@ with description("Radar Search"):
 
     with context("functionality for matching patterns"):
         with it("calculate 84% similarity for invader in radar map"):
-            radar = Radar('./data/radar_sample.txt', './data/output.txt')
+            storage_manager = RadarStorageManager('./data/radar_sample.txt', './data/output.txt')
+            radar = Radar(storage_manager)
 
             invader_image = [
                 "--o-----o--",
@@ -159,7 +161,8 @@ with description("Radar Search"):
             assert round(similarity, 2) == 0.84
 
         with it("find 4 invaders of type #1"):
-            radar = Radar('./data/radar_sample.txt', './data/output.txt')
+            storage_manager = RadarStorageManager('./data/radar_sample.txt', './data/output.txt')
+            radar = Radar(storage_manager)
 
             invader_image = [
                 "--o-----o--",
@@ -179,7 +182,8 @@ with description("Radar Search"):
             assert invaders_found == 4
 
         with it("find 5 invaders of type #2"):
-            radar = Radar('./data/radar_sample.txt', './data/output.txt')
+            storage_manager = RadarStorageManager('./data/radar_sample.txt', './data/output.txt')
+            radar = Radar(storage_manager)
 
             invader_image = [
                 "---oo---",
@@ -203,7 +207,8 @@ with description("Radar Search"):
             col_start = 73
             invader_char = '#'
 
-            radar = Radar('./data/radar_sample.txt', './data/output.txt')
+            storage_manager = RadarStorageManager('./data/radar_sample.txt', './data/output.txt')
+            radar = Radar(storage_manager)
 
             invader_image = [
                 "--o-----o--",

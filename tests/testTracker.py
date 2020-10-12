@@ -89,7 +89,8 @@ class TestInvader(unittest.TestCase):
 class TestRadar(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.radar = Radar('./data/radar_sample.txt', './data/output.txt')
+        storage_manager = RadarStorageManager('./data/radar_sample.txt', './data/output.txt')
+        cls.radar = Radar(storage_manager)
 
     def test_radar_is_loaded(self):
         self.assertEqual(self.radar.width, 100)
@@ -145,7 +146,8 @@ class TestRadarSearch(unittest.TestCase):
         self.assertEqual(similarity, 0.25)
 
     def test_similarity_calculation_for_pattern(self):
-        radar = Radar('./data/radar_sample.txt', './data/output.txt')
+        storage_manager = RadarStorageManager('./data/radar_sample.txt', './data/output.txt')
+        radar = Radar(storage_manager)
 
         invader_image = [
         "--o-----o--",
@@ -164,7 +166,8 @@ class TestRadarSearch(unittest.TestCase):
         self.assertEqual(round(similarity, 2), 0.84)
 
     def test_search_for_pattern(self):
-        radar = Radar('./data/radar_sample.txt', './data/output.txt')
+        storage_manager = RadarStorageManager('./data/radar_sample.txt', './data/output.txt')
+        radar = Radar(storage_manager)
 
         invader_image = [
             "--o-----o--",
@@ -184,7 +187,8 @@ class TestRadarSearch(unittest.TestCase):
         self.assertEqual(invaders_found, 4)
 
     def test_search_for_pattern_2(self):
-        radar = Radar('./data/radar_sample.txt', './data/output.txt')
+        storage_manager = RadarStorageManager('./data/radar_sample.txt', './data/output.txt')
+        radar = Radar(storage_manager)
 
         invader_image = [
             "---oo---",
@@ -208,7 +212,8 @@ class TestRadarSearch(unittest.TestCase):
         col_start = 73
         invader_char = '#'
 
-        radar = Radar('./data/radar_sample.txt', './data/output.txt')
+        storage_manager = RadarStorageManager('./data/radar_sample.txt', './data/output.txt')
+        radar = Radar(storage_manager)
 
         invader_image = [
             "--o-----o--",

@@ -4,7 +4,12 @@ Used for storing and loading data for radar(s).
 from tracker.pattern import Pattern
 
 
-class RadarStorageManager:
+class RadarStorage:
+    def load_radar_map(self):
+        pass
+
+
+class RadarStorageManager(RadarStorage):
     filename_input_map: str
     filename_output_map: str
 

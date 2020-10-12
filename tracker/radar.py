@@ -1,7 +1,7 @@
 """
 Class for working with radar. Using RadarManager for loading and storing radar's data.
 """
-from tracker.radarstorage import RadarStorageManager
+from tracker.radarstorage import RadarStorageManager, RadarStorage
 from tracker.radarsearch import RadarSearchUsingDiff
 from tracker.pattern import Pattern
 
@@ -9,8 +9,8 @@ from tracker.pattern import Pattern
 class Radar(Pattern, RadarSearchUsingDiff):
     manager: RadarStorageManager
 
-    def __init__(self, filename_input: str, filename_output: str):
-        self.manager = RadarStorageManager(filename_input, filename_output)
+    def __init__(self, storage_manager):
+        self.manager = storage_manager
         image = self.load_radar_image()
         Pattern.__init__(self, image)
 

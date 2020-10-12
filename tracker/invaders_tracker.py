@@ -21,6 +21,7 @@ import argparse
 from tracker.invader import Invader
 from tracker.invadersmanger import InvadersManager
 from tracker.radar import Radar
+from tracker.radarstorage import RadarStorageManager
 
 
 class Tracker:
@@ -33,7 +34,9 @@ class Tracker:
 
     def __init__(self, input_file, output_file):
         self.invaders = InvadersManager()
-        self.radar = Radar(input_file, output_file)
+
+        storage_manager = RadarStorageManager(input_file, output_file)
+        self.radar = Radar(storage_manager)
         self.load_invaders()
 
     def add_invader(self, invader_data):
