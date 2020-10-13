@@ -14,45 +14,31 @@ from tracker.radarsearch import RadarSearchUsingDiff
 
 
 class TestPattern(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        image = [
+            "OOO",
+            "OOO"
+        ]
+        cls.pattern = Pattern(image)
+
     def test_pattern_with_empty_image(self):
         image = []
-
         pattern = Pattern(image)
 
         self.assertEqual(pattern.width, 0)
         self.assertEqual(pattern.height, 0)
 
     def test_pattern_with_image(self):
-        image = [
-            "OOO",
-            "OOO"
-        ]
-
-        pattern = Pattern(image)
-
-        self.assertEqual(pattern.width, 3)
-        self.assertEqual(pattern.height, 2)
+        self.assertEqual(self.pattern.width, 3)
+        self.assertEqual(self.pattern.height, 2)
 
     def test_get_height(self):
-        image = [
-            "OOO",
-            "OOO"
-        ]
-
-        pattern = Pattern(image)
-        height = pattern.get_height()
-
+        height = self.pattern.get_height()
         self.assertEqual(height, 2)
 
     def test_get_width(self):
-        image = [
-            "OOO",
-            "OOO"
-        ]
-
-        pattern = Pattern(image)
-        width = pattern.get_width()
-
+        width = self.pattern.get_width()
         self.assertEqual(width, 3)
 
 
@@ -133,6 +119,22 @@ class TestRadarSearch(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.manager = RadarSearchUsingDiff()
 
+        invader_1_image = [
+            "--o-----o--",
+            "---o---o---",
+            "--ooooooo--",
+            "-oo-ooo-oo-",
+            "ooooooooooo",
+            "o-ooooooo-o",
+            "o-o-----o-o",
+            "---oo-oo---"
+        ]
+        cls.invader_1 = Invader(invader_1_image)
+
+    def setUp(self):
+        storage_manager = RadarStorageManager('./data/radar_sample.txt', './data/output.txt')
+        self.radar = Radar(storage_manager)
+
     def test_calculate_similarity_of_samples_matching(self):
         similarity = self.manager.calculate_similarity_of_samples('---oo---', '---oo---')
         self.assertEqual(similarity, 1)
@@ -146,51 +148,17 @@ class TestRadarSearch(unittest.TestCase):
         self.assertEqual(similarity, 0.25)
 
     def test_similarity_calculation_for_pattern(self):
-        storage_manager = RadarStorageManager('./data/radar_sample.txt', './data/output.txt')
-        radar = Radar(storage_manager)
-
-        invader_image = [
-        "--o-----o--",
-        "---o---o---",
-        "--ooooooo--",
-        "-oo-ooo-oo-",
-        "ooooooooooo",
-        "o-ooooooo-o",
-        "o-o-----o-o",
-        "---oo-oo---"
-        ]
-
-        invader = Invader(invader_image)
-
-        similarity = self.manager.calculate_similarity_for_pattern(1, 74, radar, invader)
+        similarity = self.manager.calculate_similarity_for_pattern(1, 74, self.radar, self.invader_1)
         self.assertEqual(round(similarity, 2), 0.84)
 
     def test_search_for_pattern(self):
-        storage_manager = RadarStorageManager('./data/radar_sample.txt', './data/output.txt')
-        radar = Radar(storage_manager)
-
-        invader_image = [
-            "--o-----o--",
-            "---o---o---",
-            "--ooooooo--",
-            "-oo-ooo-oo-",
-            "ooooooooooo",
-            "o-ooooooo-o",
-            "o-o-----o-o",
-            "---oo-oo---"
-        ]
-
-        invader = Invader(invader_image)
-        invaders_found = self.manager.search_for_pattern(radar, invader)
+        invaders_found = self.manager.search_for_pattern(self.radar, self.invader_1)
 
         self.assertEqual(self.manager.RATIO_MATCH, 0.79)
         self.assertEqual(invaders_found, 4)
 
     def test_search_for_pattern_2(self):
-        storage_manager = RadarStorageManager('./data/radar_sample.txt', './data/output.txt')
-        radar = Radar(storage_manager)
-
-        invader_image = [
+        invader_2_image = [
             "---oo---",
             "--oooo--",
             "-oooooo-",
@@ -201,8 +169,8 @@ class TestRadarSearch(unittest.TestCase):
             "o-o--o-o"
         ]
 
-        invader = Invader(invader_image)
-        invaders_found = self.manager.search_for_pattern(radar, invader)
+        invader = Invader(invader_2_image)
+        invaders_found = self.manager.search_for_pattern(self.radar, invader)
 
         self.assertEqual(self.manager.RATIO_MATCH, 0.79)
         self.assertEqual(invaders_found, 5)
@@ -212,28 +180,13 @@ class TestRadarSearch(unittest.TestCase):
         col_start = 73
         invader_char = '#'
 
-        storage_manager = RadarStorageManager('./data/radar_sample.txt', './data/output.txt')
-        radar = Radar(storage_manager)
-
-        invader_image = [
-            "--o-----o--",
-            "---o---o---",
-            "--ooooooo--",
-            "-oo-ooo-oo-",
-            "ooooooooooo",
-            "o-ooooooo-o",
-            "o-o-----o-o",
-            "---oo-oo---"
-        ]
-        invader = Invader(invader_image)
-
         # Make sure there is no overlay, yet
-        num_of_invader_chars = radar.image[row_start].count(invader_char)
+        num_of_invader_chars = self.radar.image[row_start].count(invader_char)
         self.assertEqual(num_of_invader_chars, 0)
 
-        self.manager.overlay_image_with_pattern(row_start, col_start, radar, invader, invader_char)
+        self.manager.overlay_image_with_pattern(row_start, col_start, self.radar, self.invader_1, invader_char)
 
-        num_of_invader_chars = radar.image[row_start].count(invader_char)
+        num_of_invader_chars = self.radar.image[row_start].count(invader_char)
         self.assertEqual(num_of_invader_chars, 6)
 
 
